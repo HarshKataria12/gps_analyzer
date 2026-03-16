@@ -1,4 +1,4 @@
-elevations = [100, 150, 200, 250, 300]
+elevations = [100, 110, 125, 120, 108, 95]
 distances = [0,10,  20,  30,  40,  50]
 # rates of elevation change (derivatives) 
 for i in range(1, len(elevations)):
@@ -9,13 +9,13 @@ for i in range(1, len(elevations)):
 
 # integrating the elevation to find total ascent
 
-def elevation_ascent(elevations, dists):
+def elevation_ascent(elev_rates, dists):
     total_ascent = 0
-    for i in range(1, len(elevations)):
+    for i in range(1, len(elev_rates)):
         dx = dists[i] - dists[i-1]
-        avg_elevation = (elevations[i] + elevations[i-1]) / 2
+        avg_elevation = (elev_rates[i] + elev_rates[i-1]) / 2
         if avg_elevation > 0:  # only consider ascent
-            total_ascent += (avg_elevation - elevations[i-1]) * dx
+            total_ascent += avg_elevation * dx
     return total_ascent
 rates =[0, 1.0, 1.5, -0.5, -1.2, -1.3]
 gain = elevation_ascent(rates, distances)
