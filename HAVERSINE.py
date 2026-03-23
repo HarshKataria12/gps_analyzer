@@ -14,10 +14,12 @@ def haversine(lat1, lon1, lat2, lon2):
     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
     distance = earth_radius * c
     return distance
-# example usage berlin to munich
-lat1 = 52.5200
-lon1 = 13.4050
-lat2 = 48.1351
-lon2 = 11.5820
-distance = haversine(lat1, lon1, lat2, lon2)
-print(f"{distance/1000:.1f} km")  
+def compute_distances(df):
+    distances = [0.0]  # start with 0 distance for the first point
+    for i in range(1, len(df)):  
+        dist = haversine(
+            df.iloc[i - 1]["latitude"],df.iloc[i - 1]["longitude"],
+            df.iloc[i]["latitude"],df.iloc[i]["longitude"],
+        )
+        distances.append(distances[-1] + dist / 1000)  # cumulative km
+    return distances   
